@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多层级饼图</title>
+    <style>
+        .chart-body {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body style="height: 100vh; margin: 0">
+    <div id="container" class="chart-body"></div>
+
+    <!-- echarts5 如果是4的话，这个echarts图会有小的样式显示bug -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+    <script>
+        // 以下六个可以父传子
+        const chartName = '多层级饼图'; // 图表下载名称
+        const chartId = 'container'; // 图表id 必传参数
+        const colorData = ['#07B39D', '#F67171', '#FEA147', '#858DA6', '#6DB579']
+        const multiLayerPie = [
+            {
+                name: '产品',
+                value: 100,
+                children: [
+                    {
+                        name: 'a1',
+                        value: 80,
+                        children: [
+                            {
+                                name: 'a11',
+                                value: 60,
+                                children: [
+                                    {
+                                        name: 'a111',
+                                        value: 40,
+                                    },
+                                    {
+                                        name: 'a112',
+                                        value: 15,
+                                    },
+                                    {
+                                        name: 'a113',
+                                        value: 5,
+                                    },
+                                ]
+                            },
+                            {
+                                name: 'a12',
+                                value: 20,
+                                children: [
+                                    {
+                                        name: 'a121',
+                                        value: 18,
+                                    },
+                                    {
+                                        name: 'a122',
+                                        value: 2,
+                                    },
+                                ]
+                            },
+                        ]
+                    },
+                    {
+                        name: 'a2',
+                        value: 20,
+                        children: [
+                            {
+                                name: 'a21',
+                                value: 20,
+                                children: [
+                                    {
+                                        name: 'a221',
+                                        value: 18,
+                                    },
+                                    {
+                                        name: 'a222',
+                                        value: 2,
+                                    },
+                                ]
+                            },
+                        ]
+                    }
+                ]
+            },
+            {
+                name: '价格',
+                value: 100,
+                children: [
+                    {
+                        name: 'ba1',
+                        value: 80,
+                        children: [
+                            {
+                                name: 'ba11',
+                                value: 60,
+                                children: [
+                                    {
+                                        name: 'ba111',
+                                        value: 40,
+                                    },
+                                    {
+                                        name: 'ba112',
+                                        value: 15,
+                                    },
+                                    {
+                                        name: 'ba113',
+                                        value: 5,
+                                    },
+                                ]
+                            },
+                            {
+                                name: 'ba12',
+                                value: 20,
+                                children: []
+                            },
+                        ]
+                    },
+                    {
+                        name: 'ba2',
+                        value: 20,
+                        children: [
+                            {
+                                name: 'ba21',
+                                value: 20,
+                                // children: [
+                                //   {
+                                //     name: 'ba221',
+                                //     value: 18,
+                                //   },
+                                //   {
+                                //     name: 'ba222',
+                                //     value: 2,
+                                //   },
+                                // ]
+                            },
+                        ]
+                    }
+                ]
+            },
+            {
+                name: '美貌',
+                value: 100,
+                children: [
+                    {
+                        name: 'ca1',
+                        value: 80,
+                        children: [
+                            {
+                                name: 'ca11',
+                                value: 60,
+                                // children: [
+                                //   {
+                                //     name: 'ca111',
+                                //     value: 40,
+                                //   },
+                                //   {
+                                //     name: 'ca112',
+                                //     value: 10,
+                                //   },
+                                //   {
+                                //     name: 'ca113',
+                                //     value: 10,
+                                //   },
+                                // ]
+                            },
+                            {
+                                name: 'ca12',
+                                value: 20,
+                                children: [
+                                    // {
+                                    //   name: 'ca121',
+                                    //   value: 14,
+                                    // },
+                                    {
+                                        name: 'ca122',
+                                        value: 6,
+                                    },
+                                ]
+                            },
+                        ]
+                    },
+                    {
+                        name: 'ca2',
+                        value: 20,
+                        children: [
+                            {
+                                name: 'ca21',
+                                value: 20,
+                                // children: [
+                                //   {
+                                //     name: 'ca221',
+                                //     value: 18,
+                                //   },
+                                //   {
+                                //     name: 'ca222',
+                                //     value: 2,
+                                //   },
+                                // ]
+                            },
+                        ]
+                    }
+                ]
+            },
+            {
+                name: '数码',
+                value: 100,
+                children: [
+                    {
+                        name: 'da1',
+                        value: 80,
+                        children: [
+                            {
+                                name: 'da11',
+                                value: 60,
+                                // children: [
+                                //   {
+                                //     name: 'da111',
+                                //     value: 30,
+                                //   },
+                                //   {
+                                //     name: 'da112',
+                                //     value: 30,
+                                //   },
+                                // ]
+                            },
+                            {
+                                name: 'da12',
+                                value: 20,
+                                children: []
+                            },
+                        ]
+                    },
+                    {
+                        name: 'da2',
+                        value: 20,
+                        children: [
+                            {
+                                name: 'da21',
+                                value: 20,
+                                // children: [
+                                //   {
+                                //     name: 'da221',
+                                //     value: 18,
+                                //   },
+                                //   {
+                                //     name: 'da222',
+                                //     value: 2,
+                                //   },
+                                // ]
+                            },
+                        ]
+                    }
+                ]
+            },
+        ];
+        const dataDepth = 4; // 层级 与 multiLayerPie 一致
+        const showDownLoad = true;
+
+        let echartsIntance; // echarts实例
+
+        // toolboxStyle一般写在单独ts里引用
+        const toolboxStyle = {
+            top: '2px',
+            right: '14px',
+            itemSize: 18,
+            feature: {
+                saveAsImage: {
+                    icon: 'path://M546.24 636.544V34.304a34.24 34.24 0 1 0-68.48-0.064v602.24L228.032 386.752a34.24 34.24 0 1 0-48.448 48.384l308.288 308.288a34.112 34.112 0 0 0 48.384 0l308.288-308.288a34.24 34.24 0 1 0-48.448-48.384L546.24 636.544z m-479.424 322.368a34.24 34.24 0 1 1 0-68.48h890.368a34.24 34.24 0 1 1 0 68.48H66.816z',
+                    // icon: 'image://../../assets/images/download.png', 
+                    title: '保存图片',
+                    name: '',
+                    iconStyle: {
+                        borderColor: '#999',
+                        color: '#999',
+                        borderWidth: 0
+                    },
+                    emphasis: {
+                        iconStyle: { color: '#3CB1FF', }
+                    },
+                    pixelRatio: 1.5,
+                    zlevel: 4
+                },
+            }
+        }
+        const PieOption = {
+            title: {
+                text: chartName,
+                show: false
+            },
+            tooltip: {
+                trigger: 'item',
+                show: false,
+                position(point, params, dom, rect, size) {
+                    // 固定在顶部
+                    return [point[0], '50%'];
+                },
+                formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            toolbox: JSON.parse(JSON.stringify(toolboxStyle)),
+            series: []
+        };
+
+        // 图表点击方法
+        function onChartClick(event) {
+            if (event.name !== '') {
+                console.log(event);
+                //   allDataChange.emit(event)  angular中的子传父
+            }
+        }
+
+        // 处理层级数据
+        function calcLayerData(pieOption) {
+            const colorDataObj = {};
+            depthOrder(colorDataObj, multiLayerPie)
+            console.log(colorDataObj);
+
+            const seriesArr = []
+            for (let i = 0; i < dataDepth; i++) {
+                const radius0 = 30 + i * 15 + '%'
+                const radius1 = i !== dataDepth - 1 ? 30 + (i + 1) * 15 + '%' : 30 + i * 15 + 5 + '%'
+                let seriesObj;
+                let seriesObj2;
+                const depth = i + 1
+                if (i !== dataDepth - 1) {
+                    seriesObj = {
+                        name: '数据',
+                        type: 'pie',
+                        radius: [radius0, radius1],
+                        avoidLabelOverlap: false,
+                        label: {
+                            position: 'inner',
+                            color: '#fff'
+                        },
+                        itemStyle: {
+                            borderWidth: 1 // 设置border宽度
+                            // borderColor:'transparent',
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        color: colorDataObj['color' + depth],
+                        data: colorDataObj['data' + depth]
+                    }
+                    seriesObj2 = {
+                        name: '数据',
+                        type: 'pie',
+                        radius: [radius0, radius1],
+                        avoidLabelOverlap: false,
+                        label: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                fontSize: '20',
+                                formatter: (params) => {
+                                    console.log(params);
+                                    const newName =
+                                        params.name === ''
+                                            ? ''
+                                            : `${params.name}\n\n${params.data.newval}`;
+                                    return newName;
+                                }
+                            }
+                        },
+                        itemStyle: {
+                            borderWidth: 1 // 设置border宽度
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        color: colorDataObj['color' + depth],
+                        data: colorDataObj['data' + depth]
+                    }
+                } else {
+                    seriesObj = {
+                        name: '数据',
+                        type: 'pie',
+                        radius: [radius0, radius1],
+                        avoidLabelOverlap: false,
+                        label: {
+                            // position: 'outsideFill',
+                        },
+                        itemStyle: {
+                            borderWidth: 1 // 设置border宽度
+                        },
+
+                        clockWise: true,
+                        color: colorDataObj['color' + depth],
+                        data: colorDataObj['data' + depth]
+                    }
+
+                    seriesObj2 = {
+                        name: '数据',
+                        type: 'pie',
+                        radius: [radius0, radius1],
+                        avoidLabelOverlap: false,
+                        label: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                fontSize: '20',
+                                formatter: (params) => {
+                                    console.log(params);
+                                    const newName =
+                                        params.name === ''
+                                            ? ''
+                                            : `${params.name}\n\n${params.data.newval}`;
+                                    return newName;
+                                }
+                            }
+                        },
+                        itemStyle: {
+                            borderWidth: 1 // 设置border宽度
+                        },
+                        clockWise: true,
+
+                        color: colorDataObj['color' + depth],
+                        data: colorDataObj['data' + depth]
+                    }
+                }
+                seriesArr.push(seriesObj, seriesObj2)
+            }
+            pieOption.series = JSON.parse(JSON.stringify(seriesArr))
+            seriesArr.forEach((sav, idx) => {
+                const newIdx = idx * 2 + 1
+                if (newIdx < seriesArr.length) {
+                    pieOption.series[newIdx].emphasis.label.formatter = (params) => {
+                        const newName =
+                            params.name === ''
+                                ? ''
+                                : `${params.name}\n\n${params.data.newval}`;
+                        return newName;
+                    }
+                }
+            })
+        }
+
+        // 封装进统一ts中
+        let colorRgb = (sColor) => {
+            if (sColor) {
+                sColor = sColor.toLowerCase();
+                // 十六进制颜色值的正则表达式
+                const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+                // 如果是16进制颜色
+                if (sColor && reg.test(sColor)) {
+                    if (sColor.length === 4) {
+                        let sColorNew = "#";
+                        for (let i = 1; i < 4; i += 1) {
+                            sColorNew += sColor.slice(i, i + 1).concat(sColor.slice(i, i + 1));
+                        }
+                        sColor = sColorNew;
+                    }
+                    // 处理六位的颜色值
+                    const sColorChange = [];
+                    for (let i = 1; i < 7; i += 2) {
+                        sColorChange.push(parseInt("0x" + sColor.slice(i, i + 2), 0));
+                    }
+                    return "rgba(" + sColorChange.join(",");
+                }
+            }
+
+            return sColor;
+        };
+
+
+        function depthOrder(obj, orderArr, depth = 1, oldPer = 100, simiColor = []) {
+            const sum = orderArr.reduce((prev, next) => prev + next.value, 0);
+            obj['data' + depth] = obj['data' + depth] ? obj['data' + depth] : []
+            obj['color' + depth] = obj['color' + depth] ? obj['color' + depth] : []
+            orderArr.forEach((item, idx) => {
+                const per = sum !== 0 ? Math.round(item.value / sum * (oldPer / 100) * 10000) / 100.00000 : 0;
+                const firstObj = {
+                    name: item.name,
+                    value: per,
+                    newval: item.value,
+                }
+
+                obj['data' + depth].push(firstObj)
+
+                let itemColor;
+                if (depth === 1) {
+                    const newRgbColor = []
+                    colorData.forEach(cdv => {
+                        const nowColor = colorRgb(cdv) + ',1)'
+                        newRgbColor.push(nowColor.slice(5, nowColor.length - 3))
+                    })
+                    itemColor = 'rgb(' + newRgbColor[idx] + ')'
+                    obj['color' + depth].push(itemColor)
+                } else {
+                    itemColor = simiColor[simiColor.length - 1][idx]
+                    obj['color' + depth].push(itemColor)
+                }
+                if (idx === orderArr.length - 1) {
+                    simiColor.pop()
+                }
+
+                if (item.children && JSON.stringify(item.children) !== '[]') {
+                    simiColor.push(randomColor(itemColor, item.children.length))
+                    depthOrder(obj, item.children, depth + 1, per, simiColor)
+                } else if (depth < dataDepth) {
+                    const emptyObj = {
+                        name: '',
+                        value: per,
+                        newval: 0
+                    }
+                    obj['data' + dataDepth].push(emptyObj)
+                    obj['color' + dataDepth].push('transparent')
+                }
+            })
+        }
+
+        // 以下三个可以封装在统一ts里
+        // 获取一组相似rgb颜色
+        let getShallowRGB = (maxColorObject, R, G, B, len) => {
+            const threshold = 30   // 色阶偏差值
+            const offset = 7   // 色深偏差值
+            const result = []
+            for (const d in maxColorObject) {
+                if (d === 'R') {
+                    for (let i = 0; i < len; i++) {
+                        const Gdelta = Math.round((255 - (G + threshold)) / len) > 7 ? 7 : Math.round((255 - (G + threshold)) / len)
+                        const Bdelta = Math.round((255 - (B + threshold)) / len) > 7 ? 7 : Math.round((255 - (B + threshold)) / len)
+                        const newRColor = [R - offset, G + threshold + Gdelta * i, B + threshold + Bdelta * i]
+                        const normalColor = `rgb(${newRColor[0]}, ${newRColor[1]}, ${newRColor[2]})`
+                        result.push(normalColor)
+                    }
+                } else if (d === 'G') {
+                    for (let i = 0; i < len; i++) {
+                        const Rdelta = Math.round((255 - (R + threshold)) / len) > 7 ? 7 : Math.round((255 - (R + threshold)) / len)
+                        const Bdelta = Math.round((255 - (B + threshold)) / len) > 7 ? 7 : Math.round((255 - (B + threshold)) / len)
+                        const newRColor = [R + threshold + Rdelta * i, G - offset, B + threshold + Bdelta * i]
+                        const normalColor = `rgb(${newRColor[0]}, ${newRColor[1]}, ${newRColor[2]})`
+                        result.push(normalColor)
+                    }
+                } else if (d === 'B') {
+                    for (let i = 0; i < len; i++) {
+                        const Rdelta = Math.round((255 - (R + threshold)) / len) > 7 ? 7 : Math.round((255 - (R + threshold)) / len)
+                        const Gdelta = Math.round((255 - (B + threshold)) / len) > 7 ? 7 : Math.round((255 - (B + threshold)) / len)
+                        const newRColor = [R + threshold + Rdelta * i, G + threshold + Gdelta * i, B - offset]
+                        const normalColor = `rgb(${newRColor[0]}, ${newRColor[1]}, ${newRColor[2]})`
+                        result.push(normalColor)
+                    }
+                }
+            }
+            return result
+        }
+
+        // 获取最大色值
+        let findMaxRGB = (R, G, B) => {
+            let max
+            let index
+            if (R >= G && R >= B) {
+                max = R
+                index = 'R'
+            }
+            if (G >= R && G >= B) {
+                max = G
+                index = 'G'
+            }
+            if (B >= R && B >= G) {
+                max = B
+                index = 'B'
+            }
+            return {
+                [index]: max
+            }
+        }
+
+        // 获取一组相似颜色的数组
+        let getSimilarColor = (R, G, B, len) => {
+            const maxColorObject = findMaxRGB(R, G, B)
+            const shallowColorArray = getShallowRGB(maxColorObject, R, G, B, len)
+            return shallowColorArray
+        }
+
+        // 随机渐变色
+        function randomColor(color, len) {
+            const newRGBColor = color.slice(4, color.length - 1).split(',')
+            const shallowColorArray = getSimilarColor(Number(newRGBColor[0]), Number(newRGBColor[1]), Number(newRGBColor[2]), len)
+            return shallowColorArray
+        }
+
+        // 初始化echarts
+        function getChart(dom) {
+            echartsIntance = echarts.init(dom, null, {
+                renderer: 'canvas',
+                useDirtyRect: false
+            });
+
+            const pieOption = JSON.parse(JSON.stringify(PieOption));
+            pieOption.title.text = chartName;
+            if (showDownLoad) {
+                pieOption.toolbox.feature.saveAsImage.name = chartName;
+                pieOption.toolbox.feature.saveAsImage.title = "下载图片";
+            } else {
+                pieOption.toolbox = {}
+            }
+
+            calcLayerData(pieOption)
+
+            // 绑定点击事件
+            echartsIntance.on("click", (params) => {
+                onChartClick(params)
+            })
+
+            if (pieOption && typeof pieOption === 'object') {
+                echartsIntance.clear()
+                echartsIntance.setOption(pieOption, true);
+            }
+
+            window.addEventListener('resize', echartsIntance.resize);
+        }
+
+
+        // 一般写在init函数里
+        setTimeout(() => {
+            const dom = document.getElementById(chartId);
+            if (dom && multiLayerPie && multiLayerPie.length > 0) {
+                getChart(dom);
+            }
+        });
+
+        // 自定义下载按钮下载echarts图
+        // 传递图表容器id
+        function downloadImpByChart(chartId) {
+            const elem = document.getElementById(chartId);
+            const myChart = echarts.getInstanceByDom(elem);
+            const url = myChart.getConnectedDataURL({
+                pixelRatio: 5,　　// 导出的图片分辨率比率,默认是1
+                backgroundColor: '#fff',　　// 图表背景色
+                excludeComponents: [　　// 保存图表时忽略的工具组件,默认忽略工具栏
+                    'toolbox'
+                ],
+                type: 'png'　　// 图片类型支持png和jpeg
+            });
+            const $a = document.createElement('a');
+            const type = 'png';
+            console.log(myChart.getOption().title)
+            $a.download = myChart.getOption().title[0].text + '.' + type;
+            $a.href = url;
+            // // Chrome and Firefox
+            if (typeof MouseEvent === 'function') {
+                const evt = new MouseEvent('click', {
+                    view: window,
+                    bubbles: true,
+                    cancelable: false
+                });
+                $a.dispatchEvent(evt);
+            }
+        };
+    </script>
+</body>
+
+</html>
